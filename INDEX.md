@@ -18,6 +18,54 @@
 
 ---
 
+## ⚙️ 硬件配置文件规范 (.user_specs.json / user_specs.json)
+
+本仓库基于硬件基准配置，结合 `doesitrun.com` 跑分模型与游戏引擎特性（UE5 / Northlight / RE Engine 等），为全库游戏提供定制化的**流畅运行画质推荐、预估帧率与避坑指南**。
+
+### 1. 配置文件放置路径与读取优先级
+
+工具按以下优先级自动识别硬件基准配置：
+
+1. **仓库本地配置文件（最高优先）**：`steam-manifests/.user_specs.json` 或 `user_specs.json`
+2. **系统环境变量**：`STEAM_SPECS_CPU`, `STEAM_SPECS_GPU`, `STEAM_SPECS_RAM`, `STEAM_SPECS_VRAM`, `STEAM_SPECS_RESOLUTION` 或 `STEAM_HARDWARE_SPECS`
+3. **用户全局配置文件**：`~/.config/steam-manifests/user_specs.json`
+
+> **隐私与 Git 隔离提示**：`.user_specs.json` 默认已加入 `.gitignore`，若无需公开个人硬件信息可直接放置该隐藏文件；如需作为公开基准，可直接提交 `user_specs.json`（仓库已提供模板 `user_specs.example.json`）。
+
+### 2. 字段规范要求
+
+| 字段名 | 类型 | 必需 | 说明与示例 |
+|---|---|---|---|
+| `cpu` | string | **必填** | 处理器型号，例如 `"Intel Core i5-9600K"` 或 `"AMD Ryzen 5 5600X"` |
+| `gpu` | string | **必填** | 显卡完整型号及显存容量，例如 `"NVIDIA GeForce RTX 2060 6GB"` |
+| `ram` | string | **必填** | 系统运行内存大小，例如 `"16GB"` 或 `"32GB"` |
+| `vram` | string | 建议 | 独立显存容量，例如 `"6GB"`（用于大作与虚幻5防爆显存专项调优） |
+| `resolution` | string | 建议 | 目标基准分辨率，默认为 `"1080p"`（可选 `"1080p"`、`"1440p"`、`"4K"` 等） |
+| `notes` | string | 可选 | 硬件特殊属性或调优备忘，例如 `"6核6线程无超线程，Turing架构6G显存，支持DLSS 2，大作建议关光追控制纹理"` |
+
+### 3. 配置示例模板 (`.user_specs.json`)
+
+```json
+{
+  "cpu": "Intel Core i5-9600K",
+  "gpu": "NVIDIA GeForce RTX 2060 6GB",
+  "ram": "16GB",
+  "vram": "6GB",
+  "resolution": "1080p",
+  "notes": "6核6线程无超线程，Turing架构6G显存，支持DLSS 2，大作建议关光追控制纹理"
+}
+```
+
+### 4. 刷新索引与调优指南命令
+
+修改配置文件或添加新游戏后，在仓库根目录执行以下命令，即可全自动依据最新配置刷新全库指南与总表：
+
+```bash
+node scripts/index_updater.js
+```
+
+---
+
 ## 各游戏详细概况与配置指南
 
 ### [2001760] 轮回之兽 (Beast of Reincarnation)

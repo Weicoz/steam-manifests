@@ -1,0 +1,8 @@
+{
+  "cpu": "Intel Core i5-9600K",
+  "gpu": "NVIDIA GeForce RTX 2060 6GB",
+  "ram": "16GB",
+  "vram": "6GB",
+  "resolution": "1080p",
+  "notes": "6核6线程无超线程，Turing架构6G显存，支持DLSS 2，大作建议关光追控制纹理"
+}
